@@ -1,155 +1,121 @@
 :root {
-  --claro-red: #e60012;
-  --bg: #050508;
-  --text: rgba(255,255,255,.95);
-  --muted: #8e8e93;
-  --glass: rgba(255,255,255,0.04);
-  --border: rgba(255,255,255,0.08);
-  --wa-green: #25D366;
+  /* Nueva gama: Azul Medianoche, Cromo y Neón */
+  --claro-red: #ff0015;
+  --accent-silver: #e0e0e0;
+  --bg-dark: #020205;
+  --card-bg: rgba(10, 10, 20, 0.7);
+  --text-main: #ffffff;
+  --text-dim: #94a3b8;
+  --border-glow: rgba(255, 255, 255, 0.15);
+  --wa-green: #2ecc71;
 }
 
-* { box-sizing: border-box; }
+* { box-sizing: border-box; transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); }
 
 body {
   margin: 0;
   font-family: 'Inter', sans-serif;
-  background-color: var(--bg);
-  color: var(--text);
+  background-color: var(--bg-dark);
+  color: var(--text-main);
   overflow-x: hidden;
   height: 100vh;
 }
 
-/* --- EFECTOS DE FONDO (ESTILO PLATA) --- */
-.bg { position: fixed; inset: 0; z-index: -1; }
-.orb { position: absolute; border-radius: 50%; filter: blur(80px); opacity: 0.15; }
-.orb-1 { width: 450px; height: 450px; top: -15%; left: -10%; background: #444; } 
-.orb-2 { width: 350px; height: 350px; bottom: 5%; right: -5%; background: var(--claro-red); opacity: 0.1; }
+/* --- FONDO RADICAL: NEÓN Y PROFUNDIDAD --- */
+.bg { position: fixed; inset: 0; z-index: -1; background: radial-gradient(circle at 50% -20%, #1e1e3f 0%, #020205 80%); }
+.orb { position: absolute; border-radius: 50%; filter: blur(120px); opacity: 0.2; }
+.orb-1 { width: 500px; height: 500px; top: -10%; right: -10%; background: var(--claro-red); }
+.orb-2 { width: 400px; height: 400px; bottom: -5%; left: -10%; background: #6366f1; } /* Toque azulado moderno */
 .grid { 
   position: absolute; inset: 0; 
-  background-image: radial-gradient(var(--border) 1px, transparent 1px);
-  background-size: 30px 30px; opacity: 0.2;
+  background-image: linear-gradient(var(--border-glow) 1px, transparent 1px), linear-gradient(90deg, var(--border-glow) 1px, transparent 1px);
+  background-size: 50px 50px; opacity: 0.05;
 }
 
-/* --- CONTENEDOR PRINCIPAL --- */
-.wrap { 
-  display: flex; 
-  align-items: center; 
-  justify-content: center; 
-  min-height: 100vh; 
-  padding: 20px; 
-}
+/* --- CONTENEDOR: GLASSMORPHISM 2.0 --- */
+.wrap { display: flex; align-items: center; justify-content: center; min-height: 100vh; padding: 15px; }
 
 .card {
-  width: 100%; 
-  max-width: 400px;
-  background: linear-gradient(145deg, rgba(255,255,255,0.05) 0%, rgba(0,0,0,0.2) 100%);
-  backdrop-filter: blur(25px);
-  -webkit-backdrop-filter: blur(25px);
-  border: 1px solid var(--border);
-  border-radius: 40px;
-  box-shadow: 0 40px 100px rgba(0,0,0,0.7);
+  width: 100%; max-width: 380px;
+  background: var(--card-bg);
+  backdrop-filter: blur(40px) saturate(180%);
+  -webkit-backdrop-filter: blur(40px) saturate(180%);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 45px;
+  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.8), inset 0 0 20px rgba(255,255,255,0.02);
   overflow: hidden;
+  position: relative;
 }
 
-/* --- HEADER Y FOTO --- */
-.top { padding: 30px 20px 15px; text-align: center; }
-.claro-mark img { width: 130px; margin-bottom: 20px; }
+/* --- HEADER: EFECTO CROMO --- */
+.top { padding: 40px 20px 20px; text-align: center; }
+.claro-mark img { width: 120px; filter: drop-shadow(0 0 15px rgba(255,0,0,0.4)); margin-bottom: 25px; }
 
 .logo {
-  width: 170px; 
-  height: 170px; 
-  margin: 0 auto 15px;
-  border-radius: 40px;
-  border: 1px solid rgba(255,255,255,0.1);
-  padding: 5px; 
-  background: rgba(255,255,255,0.02);
+  width: 160px; height: 160px; margin: 0 auto 20px;
+  border-radius: 50px;
+  background: linear-gradient(135deg, rgba(255,255,255,0.1), transparent);
+  padding: 3px;
   position: relative;
-  z-index: 2;
+  box-shadow: 0 15px 35px rgba(0,0,0,0.4);
 }
 
-.logo-img {
-  width: 100%; 
-  height: 100%; 
-  border-radius: 35px;
-  object-fit: cover;
-}
+.logo-img { width: 100%; height: 100%; border-radius: 47px; object-fit: cover; border: 1px solid rgba(255,255,255,0.1); }
 
-.name { font-size: 24px; font-weight: 800; margin: 10px 0 2px; letter-spacing: -0.5px; }
-.role { font-size: 13px; color: var(--muted); margin-bottom: 8px; text-transform: uppercase; letter-spacing: 1px; }
+.name { font-size: 26px; font-weight: 800; background: linear-gradient(to bottom, #fff, #a5a5a5); -webkit-background-clip: text; -webkit-text-fill-color: transparent; margin: 10px 0; }
+.role { font-size: 12px; color: var(--text-dim); letter-spacing: 3px; text-transform: uppercase; font-weight: 600; }
 
-/* --- DNI BADGE --- */
-.dni-container { margin-bottom: 15px; }
+/* --- BADGES MODERNOS --- */
 .dni-badge {
-  display: inline-flex;
-  align-items: center;
-  gap: 6px;
-  background: rgba(255, 255, 255, 0.05);
-  border: 1px solid var(--border);
-  padding: 5px 12px;
-  border-radius: 10px;
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  padding: 6px 16px; border-radius: 14px; margin-top: 15px; display: inline-flex; align-items: center; gap: 8px;
 }
-.dni-badge small { font-size: 8px; color: var(--muted); font-weight: 600; }
-.dni-badge span { font-size: 13px; color: var(--text); }
+.dni-badge span { font-family: 'Monaco', monospace; font-size: 14px; color: #fff; }
 
-.mini-chips { display: flex; justify-content: center; gap: 8px; }
-.chip { background: var(--glass); border: 1px solid var(--border); padding: 5px 12px; border-radius: 20px; font-size: 10px; font-weight: 600; }
+.mini-chips { display: flex; justify-content: center; gap: 10px; margin-top: 20px; }
+.chip { background: rgba(255,255,255,0.05); color: #fff; padding: 6px 14px; border-radius: 30px; font-size: 10px; font-weight: 700; border: 1px solid rgba(255,255,255,0.08); }
 
-.divider { 
-  height: 1px; 
-  background: linear-gradient(90deg, transparent, var(--border), transparent); 
-  margin: 15px 30px; 
-}
+.divider { height: 1px; background: linear-gradient(90deg, transparent, rgba(255,255,255,0.1), transparent); margin: 25px 40px; }
 
-/* --- BOTONES --- */
-.actions { padding: 0 25px 25px; display: grid; gap: 12px; }
+/* --- BOTONES: EFECTO BENTO BOX --- */
+.actions { padding: 0 25px 35px; display: grid; gap: 14px; }
 .btn {
-  display: flex; 
-  align-items: center; 
-  padding: 16px;
-  background: rgba(255,255,255,0.03); 
-  border: 1px solid var(--border);
-  border-radius: 22px; 
-  text-decoration: none; 
-  color: white;
-  transition: 0.3s ease;
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  padding: 18px; border-radius: 24px; text-decoration: none; color: #fff;
+  display: flex; align-items: center; position: relative; overflow: hidden;
 }
-.btn:hover { background: rgba(255,255,255,0.08); transform: translateY(-3px); }
-.icon { font-size: 22px; margin-right: 15px; }
-.txt strong { display: block; font-size: 15px; }
-.txt span { font-size: 11px; color: var(--muted); }
-.go { margin-left: auto; opacity: 0.3; }
+.btn::before {
+  content: ''; position: absolute; top: 0; left: -100%; width: 100%; height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.05), transparent);
+  transition: 0.5s;
+}
+.btn:hover::before { left: 100%; }
+.btn:hover { background: rgba(255, 255, 255, 0.07); border-color: rgba(255, 255, 255, 0.2); transform: translateY(-3px); }
 
-/* --- BOTÓN FLOTANTE (CHATBOT) --- */
-.avatar-float { 
-  position: fixed; 
-  right: 25px; 
-  bottom: 25px; 
-  display: flex; 
-  align-items: center; 
-  gap: 10px; 
-  text-decoration: none; 
-  z-index: 100; 
-}
+.icon { font-size: 24px; margin-right: 15px; filter: drop-shadow(0 0 8px rgba(255,255,255,0.3)); }
+.txt strong { font-size: 15px; display: block; }
+.txt span { font-size: 11px; color: var(--text-dim); }
+
+/* --- CHATBOT: ESTILO NEUMORPHISM DARK --- */
+.avatar-float { position: fixed; right: 25px; bottom: 25px; z-index: 1000; }
 .avatar-bubble {
-  width: 60px; 
-  height: 60px; 
-  border-radius: 20px;
-  border: 2px solid #444;
-  overflow: hidden; 
-  box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+  width: 65px; height: 65px; border-radius: 22px;
+  background: #0a0a0f; border: 1px solid rgba(255,255,255,0.1);
+  box-shadow: 0 15px 35px rgba(0,0,0,0.8); display: flex; align-items: center; justify-content: center;
 }
-.avatar-img { width: 100%; height: 100%; object-fit: cover; }
-.avatar-tag { background: #f2f2f2; color: #000; font-size: 11px; font-weight: 800; padding: 5px 12px; border-radius: 20px; }
+.avatar-img { width: 85%; height: 85%; border-radius: 18px; object-fit: cover; }
+.avatar-tag { position: absolute; right: 75px; background: #fff; color: #000; padding: 6px 15px; border-radius: 15px; font-weight: 900; font-size: 10px; white-space: nowrap; }
 
-/* --- PULSO WHATSAPP --- */
-.pulse-wa { position: relative; }
+/* --- ANIMACIONES --- */
 .pulse-wa::after {
-  content: ''; position: absolute; inset: 0; border-radius: 22px;
-  border: 2px solid var(--wa-green); animation: pulse-green 2s infinite;
+  content: ''; position: absolute; inset: 0; border-radius: 24px;
+  border: 2px solid var(--wa-green); animation: sonar 2s infinite;
 }
-@keyframes pulse-green {
-  0% { transform: scale(1); opacity: 0.5; }
-  100% { transform: scale(1.05, 1.1); opacity: 0; }
+@keyframes sonar {
+  0% { transform: scale(1); opacity: 0.6; }
+  100% { transform: scale(1.15, 1.25); opacity: 0; }
 }
 
 @media (max-width: 400px) { .card { border-radius: 0; border: none; min-height: 100vh; } .wrap { padding: 0; } }
