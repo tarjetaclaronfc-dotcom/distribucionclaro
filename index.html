@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>V-Card Digital · Distribución Claro</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="CSS/style.css" />
+</head>
+<body>
+
+  <div class="bg" aria-hidden="true">
+    <div class="orb orb-1"></div>
+    <div class="orb orb-2"></div>
+    <div class="orb orb-3"></div>
+    <div class="grid"></div>
+  </div>
+
+  <main class="wrap">
+    <section class="card" role="region" aria-label="Tarjeta digital Claro">
+      <header class="top">
+        <div class="claro-mark" aria-hidden="true">
+          <img src="img/logo7.png" alt="Claro">
+        </div>
+
+        <div class="logo">
+          <img
+            src="img/perfiles/default.avif"
+            alt="Foto de perfil"
+            class="logo-img"
+            id="profilePhoto"
+            onerror="this.src='img/perfiles/default.avif'"
+          />
+        </div>
+
+        <h1 class="name" id="profileName">Cargando...</h1>
+        <p class="role" id="profileRole">Asesor Distribución</p>
+
+        <div class="dni-container" id="profileDniContainer">
+          <div class="dni-badge">
+            <small>ID DISTRIBUCIÓN:</small>
+            <span id="profileDni">--.---.---</span>
+          </div>
+        </div>
+
+        <div class="mini-chips">
+          <span class="chip">Logística y Ventas</span>
+          <span class="chip">Oficial Distribución</span>
+        </div>
+      </header>
+
+      <div class="divider"></div>
+
+      <section class="actions">
+        <a class="btn glass pulse-wa" id="btnWhatsapp" href="#" target="_blank">
+          <span class="icon">💬</span>
+          <div class="txt">
+            <strong>WhatsApp</strong>
+            <span>Atención Comercial</span>
+          </div>
+          <span class="go">↗</span>
+        </a>
+
+        <a class="btn glass" id="btnEmail" href="#">
+          <span class="icon">✉️</span>
+          <div class="txt">
+            <strong>Email Oficial</strong>
+            <span>Consultas y Pedidos</span>
+          </div>
+          <span class="go">↗</span>
+        </a>
+
+        <a class="btn glass" href="https://interaccesorios.com.ar/" target="_blank">
+          <span class="icon">🌐</span>
+          <div class="txt">
+            <strong>Interaccesorios</strong>
+            <span>Catálogo Web</span>
+          </div>
+          <span class="go">↗</span>
+        </a>
+      </section>
+
+      <footer class="foot" style="text-align: center; padding-bottom: 20px; opacity: 0.5; font-size: 10px;">
+        <p>Distribución Tucumán · Claro Argentina</p>
+      </footer>
+    </section>
+  </main>
+
+  <a class="avatar-float" id="floatBot" href="#" target="_blank">
+    <div class="avatar-bubble">
+      <img class="avatar-img" src="img/avatar.jpg" alt="WhatsApp" onerror="this.src='img/perfiles/default.avif'">
+    </div>
+    <span class="avatar-tag">Chat Directo</span>
+  </a>
+
+  <script src="js/app.js"></script>
+</body>
+</html>
