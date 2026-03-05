@@ -32,7 +32,6 @@
 
                 <h1 class="name" id="profileName">Cargando...</h1>
                 <p class="role" id="profileRole">Asesor Distribución</p>
-                
                 <p class="brand-subtitle">Distribución Tucumán</p>
             </header>
 
@@ -41,9 +40,11 @@
                     <div class="icon-circle">📞</div>
                     <span>Llamar</span>
                 </a>
-                <a href="#" class="action-item" id="btnEmailHeader">
-                    <div class="icon-circle">✉️</div>
-                    <span>Correo</span>
+                <a href="javascript:void(0)" class="action-item" onclick="openQR()">
+                    <div class="icon-circle">
+                        <span class="qr-icon-inner">🔳</span>
+                    </div>
+                    <span>Mi QR</span>
                 </a>
                 <a href="#" class="action-item" id="btnWhatsappHeader">
                     <div class="icon-circle">💬</div>
@@ -51,7 +52,7 @@
                 </a>
             </div>
 
-            <button class="btn-save-contact" id="saveBtn">
+            <button class="btn-save-contact" id="saveBtn" onclick="generateVCard()">
                 👤 Guardar Contacto
             </button>
 
@@ -73,6 +74,17 @@
         </section>
     </main>
 
+    <div id="qrModal" class="modal">
+        <div class="modal-content">
+            <span class="close-modal" onclick="closeQR()">&times;</span>
+            <h3>Mi Código QR</h3>
+            <p>Escaneame para ver mi perfil</p>
+            <div id="qrcode"></div>
+            <button class="btn-close-qr" onclick="closeQR()">Cerrar</button>
+        </div>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
     <script src="js/app.js"></script>
 </body>
 </html>

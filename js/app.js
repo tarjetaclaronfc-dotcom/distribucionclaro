@@ -1,51 +1,89 @@
+// Atajo para document.getElementById
 const $ = (id) => document.getElementById(id);
+let qrGenerated = false;
 
-function getQueryParam(name) {
-    const url = new URL(window.location.href);
-    return url.searchParams.get(name);
-}
-
+/**
+ * Carga los datos del perfil desde el JSON basándose en el ID de la URL
+ */
 async function loadProfile() {
-    // Para Distribución usamos el DNI directamente como ID
-    const profileId = getQueryParam("id") || "38244814"; 
+    const urlParams = new URLSearchParams(window.location.search);
+    // ID por defecto si no hay uno en la URL
+    const profileId = urlParams.get("id") || "38244814"; 
 
     try {
         const res = await fetch("data/data.json", { cache: "no-store" });
-        if (!res.ok) throw new Error("Error en base de datos.");
-
+        if (!res.ok) throw new Error("No se pudo cargar el JSON");
+        
         const data = await res.json();
         const p = data[profileId];
 
         if (!p) {
-            $("profileName").textContent = "No encontrado";
-            $("profileRole").textContent = "ID INVÁLIDO";
+            $("profileName").textContent = "Perfil no encontrado";
             return;
         }
 
-        // Renderizado
+        // --- Renderizado de información básica ---
         if (p.foto) $("profilePhoto").src = p.foto;
         $("profileName").textContent = p.nombre;
         $("profileRole").textContent = p.rol;
-        $("profileDni").textContent = p.dni;
 
-        // WhatsApp
-        if (p.whatsapp) {
-            const cleanPhone = p.whatsapp.replace(/\s/g, '');
-            const msg = encodeURIComponent(p.mensaje || "¡Hola! Vengo desde tu Tarjeta de Distribución Claro 👋");
-            const waLink = `https://wa.me/549${cleanPhone}?text=${msg}`;
-            $("btnWhatsapp").href = waLink;
-            $("floatBot").href = waLink;
-        }
+        // --- Configuración de enlaces dinámicos ---
+        
+        // WhatsApp (Limpia espacios del número)
+        const cleanPhone = p.whatsapp.replace(/\s/g, '');
+        const waMsg = encodeURIComponent(p.mensaje || "¡Hola! Vi tu tarjeta digital de Claro.");
+        const waLink = `https://wa.me/549${cleanPhone}?text=${waMsg}`;
 
-        // Email
-        if (p.email) {
-            $("btnEmail").href = `mailto:${p.email}`;
-            $("btnEmail").style.display = "flex";
-        }
+        // Link de llamada directa
+        const callLink = `tel:${cleanPhone}`;
 
-    } catch (e) {
-        console.error("Error cargando perfil:", e);
+        // Link de Email
+        const emailLink = `mailto:${p.email}`;
+
+        // Asignar a los elementos del DOM
+        if($("btnCall")) $("btnCall").href = callLink;
+        if($("btnWhatsappHeader")) $("btnWhatsappHeader").href = waLink;
+        if($("btnWhatsappFooter")) $("btnWhatsappFooter").href = waLink;
+        if($("btnEmailFooter")) $("btnEmailFooter").href = emailLink;
+
+    } catch (error) {
+        console.error("Error al cargar el perfil:", error);
     }
 }
 
+/**
+ * Genera y muestra el modal con el código QR
+ */
+function openQR() {
+    $("qrModal").style.display = "flex";
+    
+    // Solo generamos el QR una vez por sesión de carga
+    if (!qrGenerated) {
+        new QRCode($("qrcode"), {
+            text: window.location.href, // Usa la URL exacta del asesor actual
+            width: 200,
+            height: 200,
+            colorDark: "#e60012", // Rojo oficial Claro
+            colorLight: "#ffffff",
+            correctLevel: QRCode.CorrectLevel.H
+        });
+        qrGenerated = true;
+    }
+}
+
+/**
+ * Cierra el modal del QR
+ */
+function closeQR() {
+    $("qrModal").style.display = "none";
+}
+
+// Cerrar el modal si el usuario hace clic fuera del contenido blanco
+window.onclick = function(event) {
+    if (event.target == $("qrModal")) {
+        closeQR();
+    }
+}
+
+// Inicializar la carga cuando el DOM esté listo
 document.addEventListener("DOMContentLoaded", loadProfile);
