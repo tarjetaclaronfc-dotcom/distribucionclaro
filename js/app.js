@@ -7,7 +7,7 @@ let qrGenerated = false;
  */
 async function loadProfile() {
     const urlParams = new URLSearchParams(window.location.search);
-    // ID por defecto si no hay uno en la URL
+    // ID por defecto si no hay uno en la URL (DNI de Victor Hugo)
     const profileId = urlParams.get("id") || "38244814"; 
 
     try {
@@ -85,10 +85,6 @@ window.onclick = function(event) {
     }
 }
 
-// Inicializar la carga cuando el DOM esté listo
-document.addEventListener("DOMContentLoaded", loadProfile);
-
-
 /**
  * Genera y descarga el archivo VCF (V-Card) con los datos del asesor actual
  */
@@ -105,17 +101,21 @@ async function generateVCard() {
 
         // Limpiar el número de teléfono (solo números)
         const tel = p.whatsapp.replace(/\D/g, '');
+        
+        // --- CORRECCIÓN: Nombre con "Claro Distribución" ---
+        const nombreParaVCard = `${p.nombre} - Claro Distribución`;
 
         // Construcción del formato VCF (Estándar internacional)
         const vcard = [
             "BEGIN:VCARD",
             "VERSION:3.0",
-            `FN:${p.nombre}`,
+            `FN:${nombreParaVCard}`,
+            `N:;${nombreParaVCard};;;`,
             `ORG:Claro Argentina;Distribución Tucumán`,
-            `TITLE:${p.role || p.rol}`,
+            `TITLE:${p.rol || "Asesor Comercial"}`,
             `TEL;TYPE=CELL;TYPE=VOICE;TYPE=pref:+549${tel}`,
             `EMAIL;TYPE=INTERNET:${p.email}`,
-            `URL:https://distribucionclaro.netlify.app/?id=${profileId}`,
+            `URL:${window.location.href}`,
             "END:VCARD"
         ].join("\n");
 
@@ -124,16 +124,23 @@ async function generateVCard() {
         const url = window.URL.createObjectURL(blob);
         
         const newLink = document.createElement("a");
-        newLink.download = `${p.nombre.replace(/ /g, "_")}.vcf`;
+        // Nombre del archivo prolijo
+        newLink.download = `${p.nombre.replace(/ /g, "_")}_Claro_Distribucion.vcf`;
         newLink.href = url;
         
         // Simular clic para descargar
         document.body.appendChild(newLink);
         newLink.click();
         document.body.removeChild(newLink);
+        
+        // Liberar memoria
+        window.URL.revokeObjectURL(url);
 
     } catch (e) {
         console.error("Error al generar VCard:", e);
         alert("Hubo un problema al generar el contacto.");
     }
 }
+
+// Inicializar la carga cuando el DOM esté listo
+document.addEventListener("DOMContentLoaded", loadProfile);
