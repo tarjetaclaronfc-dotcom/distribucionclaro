@@ -87,3 +87,53 @@ window.onclick = function(event) {
 
 // Inicializar la carga cuando el DOM esté listo
 document.addEventListener("DOMContentLoaded", loadProfile);
+
+
+/**
+ * Genera y descarga el archivo VCF (V-Card) con los datos del asesor actual
+ */
+async function generateVCard() {
+    const urlParams = new URLSearchParams(window.location.search);
+    const profileId = urlParams.get("id") || "38244814"; 
+
+    try {
+        const res = await fetch("data/data.json");
+        const data = await res.json();
+        const p = data[profileId];
+
+        if (!p) return alert("Error: No se encontraron datos para generar el contacto.");
+
+        // Limpiar el número de teléfono (solo números)
+        const tel = p.whatsapp.replace(/\D/g, '');
+
+        // Construcción del formato VCF (Estándar internacional)
+        const vcard = [
+            "BEGIN:VCARD",
+            "VERSION:3.0",
+            `FN:${p.nombre}`,
+            `ORG:Claro Argentina;Distribución Tucumán`,
+            `TITLE:${p.role || p.rol}`,
+            `TEL;TYPE=CELL;TYPE=VOICE;TYPE=pref:+549${tel}`,
+            `EMAIL;TYPE=INTERNET:${p.email}`,
+            `URL:https://distribucionclaro.netlify.app/?id=${profileId}`,
+            "END:VCARD"
+        ].join("\n");
+
+        // Crear el archivo para descargar
+        const blob = new Blob([vcard], { type: "text/vcard" });
+        const url = window.URL.createObjectURL(blob);
+        
+        const newLink = document.createElement("a");
+        newLink.download = `${p.nombre.replace(/ /g, "_")}.vcf`;
+        newLink.href = url;
+        
+        // Simular clic para descargar
+        document.body.appendChild(newLink);
+        newLink.click();
+        document.body.removeChild(newLink);
+
+    } catch (e) {
+        console.error("Error al generar VCard:", e);
+        alert("Hubo un problema al generar el contacto.");
+    }
+}
